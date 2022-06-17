@@ -7,10 +7,6 @@ jobs:
     steps:
       - checkout
       - run: npm i
-      - save_cache:
-          key: "npm packages"
-          paths:
-            - /src/store
       - run: npm run lint
 
   test:
@@ -18,9 +14,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          key: 
-            - "npm packages"
       - run: npm i
       - run: npm run test
 
@@ -29,9 +22,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          key: 
-            - "npm packages"
       - run: npm run audit
 
 workflows:
@@ -40,7 +30,7 @@ workflows:
       - build
       - test:
           requires: 
-            build
+            - build
       - analyse:
           requires:
-            test
+            - test
